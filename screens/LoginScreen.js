@@ -1,14 +1,49 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import axios from 'axios';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const BACKEND_URL = "http://192.168.1.203:5000/api/auth/login"; // Assure-toi que ton backend écoute à cette adresse
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Erreur', 'Email et mot de passe sont requis');
+      return;
+    }
+  
+    // if (email.trim() === '') {
+    //   Alert.alert('Erreur', 'L\'email ne peut pas être vide');
+    //   return;
+    // }
+    try {
+       console.log("Tentative de connexion avec :", email);
+       console.log("Endpoint API:", BACKEND_URL); // Vérifie l'URL exacte
+       console.log("Payload:", { email, password }); // Vérifie tout le corps de la requête
+      const response = await axios.post(BACKEND_URL, {
+        email,
+        password
+      });
+
+      console.log('Réponse du serveur :', response.data);
+
+      if (response.data.token) {
+        Alert.alert('Succès', 'Connexion réussie');
+        navigation.navigate('UsersScreen'); // Vérifie bien que ton screen s'appelle "Accueil" dans le Navigator
+      } else {
+        Alert.alert('Erreur', 'Token non reçu');
+      }
+    } catch (error) {
+      console.log("Erreur complète:", error);
+      Alert.alert('Erreur', error.response?.data?.message || 'Erreur de connexion');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-      
         <Text style={styles.title}>Welcome Back</Text>
       </View>
 
@@ -32,7 +67,7 @@ const LoginScreen = ({ navigation }) => {
           secureTextEntry
         />
 
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>Log In</Text>
         </TouchableOpacity>
 
@@ -61,11 +96,6 @@ const styles = StyleSheet.create({
   logoContainer: {
     alignItems: 'center',
     marginBottom: 40,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
   },
   title: {
     fontSize: 24,
