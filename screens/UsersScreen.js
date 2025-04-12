@@ -9,7 +9,7 @@ const UsersScreen = ({ navigation }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://192.168.1.203:5000/api/users');
+      const response = await axios.get('http://192.168.43.102:5000/api/users');
       setUsers(response.data);
       setLoading(false);
     } catch (err) {

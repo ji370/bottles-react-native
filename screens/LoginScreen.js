@@ -6,7 +6,7 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const BACKEND_URL = "http://192.168.1.203:5000/api/auth/login"; // Assure-toi que ton backend écoute à cette adresse
+  const BACKEND_URL = "http://192.168.43.102:5000/api/auth/login"; // Assure-toi que ton backend écoute à cette adresse
 
   const handleLogin = async () => {
     if (!email || !password) {

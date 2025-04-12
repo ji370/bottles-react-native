@@ -16,7 +16,7 @@ const TrashBinsScreen = () => {
 
   const fetchBins = async () => {
     try {
-      const response = await axios.get('http://192.168.1.203:5000/api/poubelles/poubelle');
+      const response = await axios.get('http://192.168.43.102:5000/api/poubelles/poubelle');
       setBins(response.data);
       setLoading(false);
     } catch (err) {

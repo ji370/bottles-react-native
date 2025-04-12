@@ -6,7 +6,7 @@ import SignupScreen from './screens/SignupScreen';
 import UsersScreen from './screens/UsersScreen';
 import UserDetailsScreen from './screens/UserDetailsScreen ';
 import TrashBinsScreen from './screens/TrashBinsScreen';
-
+import DetailsPoubelles from './screens/DetailsPoubelles';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -23,6 +23,7 @@ const App = () => {
         <Stack.Screen name="UsersScreen" component={UsersScreen} />
         <Stack.Screen name="UserDetailsScreen" component={UserDetailsScreen} />
         <Stack.Screen name="TrashBins" component={TrashBinsScreen} options={{ title: 'Liste des poubelles' }} />
+        <Stack.Screen name="DetailsPoubelles" component={DetailsPoubelles} />
       </Stack.Navigator>
     </NavigationContainer>
   );

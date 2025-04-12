@@ -357,7 +357,7 @@ export default function RegisterScreen() {
 
     try {
       // Envoi des données à l'API backend
-      const response = await axios.post('http://192.168.1.203:5000/api/auth/register', {
+      const response = await axios.post('http://192.168.43.102:5000/api/auth/register', {
         firstName,
         lastName,
         email,
