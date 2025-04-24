@@ -4,9 +4,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import UsersScreen from './screens/UsersScreen';
-import UserDetailsScreen from './screens/UserDetailsScreen ';
 import TrashBinsScreen from './screens/TrashBinsScreen';
-import DetailsPoubelles from './screens/DetailsPoubelles';
+import HomeScreen from './screens/HomeScreen';
+import MapScreen from './screens/MapScreen';
+import ForgetPasswordScreen from './screens/ForgetPasswordScreen';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -21,9 +23,11 @@ const App = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="UsersScreen" component={UsersScreen} />
-        <Stack.Screen name="UserDetailsScreen" component={UserDetailsScreen} />
-        <Stack.Screen name="TrashBins" component={TrashBinsScreen} options={{ title: 'Liste des poubelles' }} />
-        <Stack.Screen name="DetailsPoubelles" component={DetailsPoubelles} />
+        <Stack.Screen name="TrashBins" component={TrashBinsScreen} options={{ title: 'Liste des pouBelles' }} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Accueil' }} />
+        <Stack.Screen name="Map" component={MapScreen} />
+        <Stack.Screen name="ForgetPassword" component={ForgetPasswordScreen} />
+        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
