@@ -1,432 +1,347 @@
-// // import React, { useState } from 'react';
-// // import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native';
-
-// // const SignupScreen = ({ navigation }) => {
-// //   const [name, setName] = useState('');
-// //   const [email, setEmail] = useState('');
-// //   const [password, setPassword] = useState('');
-// //   const [confirmPassword, setConfirmPassword] = useState('');
-
-// //   return (
-// //     <KeyboardAvoidingView 
-// //       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-// //       style={styles.container}
-// //     >
-// //       <View style={styles.innerContainer}>
-// //         <View style={styles.logoContainer}>
-         
-// //           <Text style={styles.title}>Create Account</Text>
-// //         </View>
-
-// //         <View style={styles.formContainer}>
-// //           <TextInput
-// //             style={styles.input}
-// //             placeholder="Full Name"
-// //             placeholderTextColor="#999"
-// //             value={name}
-// //             onChangeText={setName}
-// //             autoCapitalize="words"
-// //           />
-
-// //           <TextInput
-// //             style={styles.input}
-// //             placeholder="Email"
-// //             placeholderTextColor="#999"
-// //             value={email}
-// //             onChangeText={setEmail}
-// //             keyboardType="email-address"
-// //             autoCapitalize="none"
-// //           />
-
-// //           <TextInput
-// //             style={styles.input}
-// //             placeholder="Password"
-// //             placeholderTextColor="#999"
-// //             value={password}
-// //             onChangeText={setPassword}
-// //             secureTextEntry
-// //           />
-
-// //           <TextInput
-// //             style={styles.input}
-// //             placeholder="Confirm Password"
-// //             placeholderTextColor="#999"
-// //             value={confirmPassword}
-// //             onChangeText={setConfirmPassword}
-// //             secureTextEntry
-// //           />
-
-// //           <TouchableOpacity style={styles.signupButton}>
-// //             <Text style={styles.signupButtonText}>Sign Up</Text>
-// //           </TouchableOpacity>
-// //         </View>
-
-// //         <View style={styles.footer}>
-// //           <Text style={styles.footerText}>Already have an account?</Text>
-// //           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-// //             <Text style={styles.loginText}>Log In</Text>
-// //           </TouchableOpacity>
-// //         </View>
-// //       </View>
-// //     </KeyboardAvoidingView>
-// //   );
-// // };
-
-// // const styles = StyleSheet.create({
-// //   container: {
-// //     flex: 1,
-// //     backgroundColor: '#fff',
-// //   },
-// //   innerContainer: {
-// //     flex: 1,
-// //     padding: 20,
-// //     justifyContent: 'center',
-// //   },
-// //   logoContainer: {
-// //     alignItems: 'center',
-// //     marginBottom: 30,
-// //   },
-// //   logo: {
-// //     width: 100,
-// //     height: 100,
-// //     marginBottom: 15,
-// //   },
-// //   title: {
-// //     fontSize: 24,
-// //     fontWeight: 'bold',
-// //     color: '#333',
-// //   },
-// //   formContainer: {
-// //     marginBottom: 20,
-// //   },
-// //   input: {
-// //     height: 50,
-// //     borderColor: '#ddd',
-// //     borderWidth: 1,
-// //     borderRadius: 8,
-// //     paddingHorizontal: 15,
-// //     marginBottom: 15,
-// //     fontSize: 16,
-// //   },
-// //   signupButton: {
-// //     backgroundColor: '#4CAF50',
-// //     padding: 15,
-// //     borderRadius: 8,
-// //     alignItems: 'center',
-// //     marginTop: 10,
-// //   },
-// //   signupButtonText: {
-// //     color: '#fff',
-// //     fontSize: 16,
-// //     fontWeight: 'bold',
-// //   },
-// //   footer: {
-// //     flexDirection: 'row',
-// //     justifyContent: 'center',
-// //     marginTop: 20,
-// //   },
-// //   footerText: {
-// //     color: '#666',
-// //     marginRight: 5,
-// //   },
-// //   loginText: {
-// //     color: '#4CAF50',
-// //     fontWeight: 'bold',
-// //   },
-// // });
-
-// // export default SignupScreen;
-
-
-
-// import React, { useState } from 'react';
-// import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView, Platform, Alert } from 'react-native';
-// import axios from 'axios';
-
-// const SignupScreen = ({ navigation }) => {
-//   const [name, setName] = useState('');
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [confirmPassword, setConfirmPassword] = useState('');
-//   const [isLoading, setIsLoading] = useState(false);
-
-//   const BACKEND_URL = "http://192.168.1.234:5000/api/auth/register";
-
-//   const handleSignup = async () => {
-//     // Validation des champs
-//     if (!name || !email || !password || !confirmPassword) {
-//       Alert.alert('Error', 'All fields are required');
-//       return;
-//     }
-
-//     if (password !== confirmPassword) {
-//       Alert.alert('Error', 'Passwords do not match');
-//       return;
-//     }
-
-//     if (password.length < 6) {
-//       Alert.alert('Error', 'Password must be at least 6 characters');
-//       return;
-//     }
-
-//     setIsLoading(true);
-
-//     try {
-//       console.log("Sending registration request to:", BACKEND_URL);
-//       console.log("Payload:", { name, email, password });
-
-//       const response = await axios.post(BACKEND_URL, {
-//         name,
-//         email,
-//         password
-//       });
-
-//       console.log('Registration response:', response.data);
-
-//       if (response.data.success) {
-//         Alert.alert('Success', 'Registration successful!', [
-//           { text: 'OK', onPress: () => navigation.navigate('Login') }
-//         ]);
-//       } else {
-//         Alert.alert('Error', response.data.message || 'Registration failed');
-//       }
-//     } catch (error) {
-//       console.log("Registration error:", error);
-//       Alert.alert(
-//         'Error', 
-//         error.response?.data?.message || 
-//         error.message || 
-//         'Registration failed. Please try again.'
-//       );
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   return (
-//     <KeyboardAvoidingView 
-//       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-//       style={styles.container}
-//     >
-//       <View style={styles.innerContainer}>
-//         <View style={styles.logoContainer}>
-//           <Text style={styles.title}>Create Account</Text>
-//         </View>
-
-//         <View style={styles.formContainer}>
-//           <TextInput
-//             style={styles.input}
-//             placeholder="Full Name"
-//             placeholderTextColor="#999"
-//             value={name}
-//             onChangeText={setName}
-//             autoCapitalize="words"
-//           />
-
-//           <TextInput
-//             style={styles.input}
-//             placeholder="Email"
-//             placeholderTextColor="#999"
-//             value={email}
-//             onChangeText={setEmail}
-//             keyboardType="email-address"
-//             autoCapitalize="none"
-//           />
-
-//           <TextInput
-//             style={styles.input}
-//             placeholder="Password (min 6 characters)"
-//             placeholderTextColor="#999"
-//             value={password}
-//             onChangeText={setPassword}
-//             secureTextEntry
-//           />
-
-//           <TextInput
-//             style={styles.input}
-//             placeholder="Confirm Password"
-//             placeholderTextColor="#999"
-//             value={confirmPassword}
-//             onChangeText={setConfirmPassword}
-//             secureTextEntry
-//           />
-
-//           <TouchableOpacity 
-//             style={styles.signupButton} 
-//             onPress={handleSignup}
-//             disabled={isLoading}
-//           >
-//             <Text style={styles.signupButtonText}>
-//               {isLoading ? 'Creating Account...' : 'Sign Up'}
-//             </Text>
-//           </TouchableOpacity>
-//         </View>
-
-//         <View style={styles.footer}>
-//           <Text style={styles.footerText}>Already have an account?</Text>
-//           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-//             <Text style={styles.loginText}>Log In</Text>
-//           </TouchableOpacity>
-//         </View>
-//       </View>
-//     </KeyboardAvoidingView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//   },
-//   innerContainer: {
-//     flex: 1,
-//     padding: 20,
-//     justifyContent: 'center',
-//   },
-//   logoContainer: {
-//     alignItems: 'center',
-//     marginBottom: 30,
-//   },
-//   logo: {
-//     width: 100,
-//     height: 100,
-//     marginBottom: 15,
-//   },
-//   title: {
-//     fontSize: 24,
-//     fontWeight: 'bold',
-//     color: '#333',
-//   },
-//   formContainer: {
-//     marginBottom: 20,
-//   },
-//   input: {
-//     height: 50,
-//     borderColor: '#ddd',
-//     borderWidth: 1,
-//     borderRadius: 8,
-//     paddingHorizontal: 15,
-//     marginBottom: 15,
-//     fontSize: 16,
-//   },
-//   signupButton: {
-//     backgroundColor: '#4CAF50',
-//     padding: 15,
-//     borderRadius: 8,
-//     alignItems: 'center',
-//     marginTop: 10,
-//   },
-//   signupButtonText: {
-//     color: '#fff',
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   footer: {
-//     flexDirection: 'row',
-//     justifyContent: 'center',
-//     marginTop: 20,
-//   },
-//   footerText: {
-//     color: '#666',
-//     marginRight: 5,
-//   },
-//   loginText: {
-//     color: '#4CAF50',
-//     fontWeight: 'bold',
-//   },
-// });
-
-// export default SignupScreen;
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import axios from 'axios';
 
-export default function RegisterScreen() {
+const countryCodes = [
+  { label: '🇹🇳 Tunisie (+216)', value: '+216' },
+  { label: '🇫🇷 France (+33)', value: '+33' },
+  { label: '🇲🇦 Maroc (+212)', value: '+212' },
+  { label: '🇩🇿 Algérie (+213)', value: '+213' },
+  { label: '🇨🇦 Canada (+1)', value: '+1' },
+  { label: '🇨🇭 Suisse (+41)', value: '+41' },
+  { label: '🇧🇪 Belgique (+32)', value: '+32' },
+];
+
+const SignupScreen = ({ navigation }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [genre, setGenre] = useState('homme');
+  const [telephone, setTelephone] = useState('');
+  const [adresse, setAdresse] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [countryCode, setCountryCode] = useState('+216');
+  const [showCountries, setShowCountries] = useState(false);
 
   const handleRegister = async () => {
-    // Vérification de la validité des champs (tu peux ajouter plus de validation si nécessaire)
-    if (!firstName || !lastName || !email || !password) {
-      setMessage('Tous les champs sont requis.');
+    console.log('🔧 Début de la fonction handleRegister');
+
+    if (!firstName || !lastName || !email || !password || !telephone || !adresse) {
+      setSuccess(false);
+      setMessage('⚠️ Tous les champs sont requis.');
+      console.log('❌ Champ(s) manquant(s)');
+      return;
+    }
+
+    if (!email.endsWith('@gmail.com')) {
+      setSuccess(false);
+      setMessage("❌ L'adresse email doit se terminer par @gmail.com.");
+      console.log('❌ Email non valide');
+      return;
+    }
+
+    if (password.length < 8) {
+      setSuccess(false);
+      setMessage('❌ Le mot de passe doit contenir au moins 8 caractères.');
+      console.log('❌ Mot de passe trop court');
       return;
     }
 
     try {
-      // Envoi des données à l'API backend
-      const response = await axios.post('http://192.168.43.102:5000/api/auth/register', {
+      console.log('📤 Envoi des données au backend...');
+      const response = await axios.post('http://20.20.18.89:5000/api/auth/register', {
         firstName,
         lastName,
         email,
         password,
+        genre,
+        telephone: countryCode + telephone,
+        adresse,
       });
 
-      // Afficher la réponse de l'API (message de succès ou token)
-      setMessage(`✅ Compte créé avec succès: ${response.data.message}`);
+      console.log('✅ Réponse reçue du backend :', response.data);
+
+      setSuccess(true);
+      setMessage(`✅ Compte créé avec succès. Bienvenue, ${response.data.user?.firstName || firstName} !`);
+      setTimeout(() => navigation.navigate('Login'), 2000);
     } catch (error) {
-      // Afficher les erreurs provenant du backend
+      setSuccess(false);
       if (error.response) {
-        setMessage(`❌ Erreur : ${error.response.data.message}`);
+        console.log('❌ Erreur du serveur :', error.response.data);
+        if (error.response.status === 409) {
+          setMessage('❌ Un compte avec cet email existe déjà.');
+        } else {
+          setMessage(`❌ Erreur : ${error.response.data.message || 'Une erreur est survenue.'}`);
+        }
       } else {
-        setMessage(`❌ Erreur de réseau : ${error.message}`);
+        console.log('❌ Erreur réseau :', error.message);
+        setMessage(`❌ Erreur réseau : ${error.message}`);
       }
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Prénom"
-        value={firstName}
-        onChangeText={setFirstName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Nom"
-        value={lastName}
-        onChangeText={setLastName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Mot de passe"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      <Button title="S’inscrire" onPress={handleRegister} />
-      {message ? <Text style={styles.message}>{message}</Text> : null}
-    </View>
+  const renderCountryItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.countryItem}
+      onPress={() => {
+        console.log('🌍 Code pays sélectionné :', item.value);
+        setCountryCode(item.value);
+        setShowCountries(false);
+      }}
+    >
+      <Text style={styles.countryText}>{item.label}</Text>
+    </TouchableOpacity>
   );
-}
+
+  return (
+    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <FlatList
+          data={[
+            
+            // { key: 'title', value: 'Créer un compte' },
+            { key: 'firstName', value: firstName, placeholder: 'Prénom', setter: setFirstName },
+            { key: 'lastName', value: lastName, placeholder: 'Nom', setter: setLastName },
+            { key: 'email', value: email, placeholder: 'Email', setter: setEmail, keyboardType: 'email-address' },
+            { key: 'adresse', value: adresse, placeholder: 'Adresse', setter: setAdresse },
+            { key: 'codePays', isCustom: true },
+            { key: 'telephone', value: telephone, placeholder: 'Téléphone', setter: setTelephone, keyboardType: 'phone-pad' },
+          ]}
+          renderItem={({ item }) => {
+            if (item.key === 'title') {
+              return <Text style={styles.title}>{item.value}</Text>;
+            }
+
+            if (item.key === 'codePays') {
+              return (
+                <View style={styles.pickerWrapper}>
+                  <Text style={styles.label}>Code pays</Text>
+                  <TouchableOpacity
+                    style={styles.pickerContainer}
+                    onPress={() => setShowCountries(!showCountries)}
+                  >
+                    <Text style={styles.countryText}>
+                      {countryCodes.find(c => c.value === countryCode)?.label || 'Sélectionner un pays'}
+                    </Text>
+                  </TouchableOpacity>
+                  {showCountries && (
+                    <FlatList
+                      data={countryCodes}
+                      renderItem={renderCountryItem}
+                      keyExtractor={(item) => item.value}
+                      style={styles.countryList}
+                    />
+                  )}
+                </View>
+              );
+            }
+
+            return (
+              <TextInput
+                style={styles.input}
+                placeholder={item.placeholder}
+                value={item.value}
+                onChangeText={(text) => {
+                  console.log(`📝 ${item.key} modifié :`, text);
+                  item.setter(text);
+                }}
+                keyboardType={item.keyboardType || 'default'}
+                placeholderTextColor="#8a8a8a"
+              />
+            );
+          }}
+          ListFooterComponent={
+            <>
+              <View style={styles.genreContainer}>
+                {['homme', 'femme'].map((option) => (
+                  <TouchableOpacity
+                    key={option}
+                    style={[styles.genreButton, genre === option && styles.selectedButton]}
+                    onPress={() => {
+                      console.log('👤 Genre sélectionné :', option);
+                      setGenre(option);
+                    }}
+                  >
+                    <Text style={[styles.genreText, genre === option && styles.selectedText]}>
+                      {option.charAt(0).toUpperCase() + option.slice(1)}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              <View style={styles.passwordContainer}>
+                <TextInput
+                  style={styles.passwordInput}
+                  placeholder="Mot de passe"
+                  secureTextEntry={!showPassword}
+                  value={password}
+                  onChangeText={(text) => {
+                    console.log('🔑 Mot de passe modifié');
+                    setPassword(text);
+                  }}
+                  placeholderTextColor="#8a8a8a"
+                />
+                <TouchableOpacity onPress={() => {
+                  console.log('👁️ Toggle mot de passe');
+                  setShowPassword(!showPassword);
+                }}>
+                  <Text style={styles.eye}>{showPassword ? '🙈' : '👁️'}</Text>
+                </TouchableOpacity>
+              </View>
+
+              <TouchableOpacity style={styles.button} onPress={handleRegister}>
+                <Text style={styles.buttonText}>S'inscrire</Text>
+              </TouchableOpacity>
+
+              {message !== '' && (
+                <Text style={[styles.message, { color: success ? '#5E8B7E' : '#BF616A' }]}>{message}</Text>
+              )}
+            </>
+          }
+          keyExtractor={(item) => item.key}
+          contentContainerStyle={styles.formContainer}
+        />
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 20,
+    backgroundColor: '#F5F5F5',
+    paddingTop: 30,
+  },
+  formContainer: {
+    padding: 25,
+    paddingBottom: 40,
+    flexGrow: 1,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '600',
+    textAlign: 'center',
+    color: '#2F5D62',
+    marginBottom: 20,
+    fontFamily: 'sans-serif-medium',
+  },
+  pickerWrapper: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  pickerContainer: {
+    borderColor: '#DFD7CA',
+    borderWidth: 1.5,
+    borderRadius: 10,
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+    width: '100%',
+    alignItems: 'center',
+  },
+  countryText: {
+    fontSize: 16,
+    color: '#2F5D62',
+  },
+  countryList: {
+    marginTop: 10,
+    maxHeight: 200,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    width: '100%',
+  },
+  countryItem: {
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+  },
+  label: {
+    fontSize: 16,
+    color: '#5E8B7E',
+    marginBottom: 5,
+    alignSelf: 'flex-start',
   },
   input: {
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingLeft: 10,
+    height: 55,
+    borderColor: '#DFD7CA',
+    borderWidth: 1.5,
+    borderRadius: 10,
+    marginBottom: 20,
+    paddingHorizontal: 18,
+    backgroundColor: '#FFFFFF',
+    fontSize: 16,
+    color: '#2F5D62',
+  },
+  genreContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+  },
+  genreButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#DFD7CA',
+    borderRadius: 10,
+  },
+  selectedButton: {
+    backgroundColor: '#5E8B7E',
+  },
+  genreText: {
+    fontFamily: 'Roboto',
+    fontSize: 16,
+  },
+  selectedText: {
+    color: '#FFFFFF',
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  passwordInput: {
+    flex: 1,
+    height: 55,
+    borderColor: '#DFD7CA',
+    borderWidth: 1.5,
+    borderRadius: 10,
+    paddingHorizontal: 18,
+    backgroundColor: '#FFFFFF',
+    fontSize: 16,
+    color: '#2F5D62',
+  },
+  eye: {
+    marginLeft: 10,
+    fontSize: 22,
+    color: '#5E8B7E',
+  },
+  button: {
+    backgroundColor: '#5E8B7E',
+    paddingVertical: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#FFFFFF',
   },
   message: {
     marginTop: 20,
     fontSize: 16,
-    color: 'red',
     textAlign: 'center',
   },
 });
+
+export default SignupScreen;
